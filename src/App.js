@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import News from './components/News';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+
+    render() {
+        return (
+            <div className="App">
+                <div className="container">
+                    <article>
+                        <div className="header">
+                            <h1>WorkJam React Test</h1>
+                            <div className="header__news"><img src="y18.gif" alt="" /><h2>Hacker News</h2></div>
+                        </div>
+
+                        <div id="alert-panel"></div>
+
+                        <div className="section news">
+                            <News />
+                        </div>
+                    </article>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
