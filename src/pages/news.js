@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Model from './Model';
-import AlertDismissable from './AlertDismissable';
-import NewsItem from './NewsItem';
+import Model from '../components/Model';
+import AlertDismissable from '../components/AlertDismissable';
+import NewsItem from '../components/NewsItem';
 
 class News extends Component {
 
     constructor(){
         super();
 
-        this.news = [];
         this.state = {
-            newsItems: []
+            newsIds: []
         };
         this.model = Model.getInstance();
     }
@@ -26,45 +25,31 @@ class News extends Component {
             .then((responce) => {
                 if(responce.data.length > 0) {
                     let ids = responce.data.slice(0, 10);
-                    ids.forEach((id) => {
-                        self.model.getItem(id)
-                            .then((responce) => {
-                                self.news.push(responce.data);
-                                self.setState({
-                                    newsItems: self.news
-                                });
-                            });
+                    self.setState({
+                        newsIds: ids
                     });
                 }
             })
             .catch((error) => {
                 console.log(error);
                 self.showError('Top stories url is not accessible. Please try to refresh the page');
-            })
-            .finally(() => {
-                if(self.news.length > 0){
-console.log('finally', self.news);
-                    self.setState({
-                        newsItems: self.news
-                    });
-                }
             });
         ;
     }
 
     render() {
-        if(this.state.newsItems.length){
-            let count = 0;
+        if(this.state.newsIds.length){
             return (
-                <ol className="news-list">
-                    {this.state.newsItems.map((value, key) => {
-                            let props = value;
-                            count=+1;
+                <section className="news">
+                    <ol className="news-list">
+                        {this.state.newsIds.map((value, key) => {
+                            let props = { id: value };
 
                             return (<NewsItem key={key} count={key} {...props} />);
                         })
-                    }
-                </ol>
+                        }
+                    </ol>
+                </section>
             );
         } else {
             return('');
